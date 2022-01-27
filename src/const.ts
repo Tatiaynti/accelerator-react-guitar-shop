@@ -1,5 +1,4 @@
 const PRODUCTS_PER_PAGE = 9;
-const PAGES_COUNT = 3;
 const FIRST_PAGE = 1;
 const MIN_COMMENT_LENGTH = 3;
 
@@ -27,13 +26,6 @@ enum SortType {
 enum SortOrder {
   Asc = 'asc',
   Desc = 'desc',
-}
-
-enum FilterParams {
-  MinPrice = 'price_gte=',
-  MaxPrice = 'price_lte=',
-  Type = 'type=',
-  FilterStringCount = 'stringCount=',
 }
 
 const stringValues = [4, 6, 7, 12];
@@ -87,11 +79,6 @@ enum StringCount {
   TwelveStrings = '12-strings',
 }
 
-enum BooleanToString {
-  True = '1',
-  False = '0'
-}
-
 enum FilterPath {
   Sort = '&_sort=',
   Order = '&_order=',
@@ -138,5 +125,5 @@ enum DefaultPriceRange {
   Max = 30000,
 }
 
-export {MIN_COMMENT_LENGTH, GuitarTypeToReadable, QueryParams, FilterPath, BooleanToString, StringCount, AppRoute, APIRoute, SortType, SortOrder, FilterParams, stringValues, filtersByStringAndType, PRODUCTS_PER_PAGE, PAGES_COUNT, FIRST_PAGE, stringLabels, FilterByType, DefaultPriceRange};
+export {MIN_COMMENT_LENGTH, GuitarTypeToReadable, QueryParams, FilterPath, StringCount, AppRoute, APIRoute, SortType, SortOrder, stringValues, filtersByStringAndType, PRODUCTS_PER_PAGE, FIRST_PAGE, stringLabels, FilterByType, DefaultPriceRange};
 export type {FetchGuitarProperty};

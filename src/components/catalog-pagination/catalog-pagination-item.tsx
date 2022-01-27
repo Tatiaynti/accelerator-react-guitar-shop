@@ -7,7 +7,7 @@ type PaginationItemProps = {
   activePage: number,
 }
 
-function PaginationItem({ pageCount, activePage }: PaginationItemProps): JSX.Element {
+function CatalogPaginationItem({ pageCount, activePage }: PaginationItemProps): JSX.Element {
   const history = useHistory();
   const queryParams = useQueryParams();
 
@@ -25,4 +25,4 @@ function PaginationItem({ pageCount, activePage }: PaginationItemProps): JSX.Ele
   );
 }
 
-export default PaginationItem;
+export default CatalogPaginationItem;

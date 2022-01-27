@@ -13,7 +13,7 @@ function CatalogFilters(): JSX.Element {
   const guitars = useSelector(getGuitars);
 
   const [currentTypes, setCurrentTypes] = useState<string[]>([]);
-  const [currentStringCount, setcurrentStringCount] = useState<string[]>([]);
+  const [currentStringCount, setCurrentStringCount] = useState<string[]>([]);
   const [availableStringCount, setAvailableStringCount] = useState<number[]>(stringValues);
   const [userPriceMinValue, setUserPriceMinValue] = useState('');
   const [userPriceMaxValue, setUserPriceMaxValue] = useState('');
@@ -148,7 +148,7 @@ function CatalogFilters(): JSX.Element {
 
     if (target.checked) {
       currentStringCount.push(target.id);
-      setcurrentStringCount(currentStringCount);
+      setCurrentStringCount(currentStringCount);
     } else {
       const index = currentStringCount.indexOf(target.id);
       currentStringCount.splice(index, 1);
