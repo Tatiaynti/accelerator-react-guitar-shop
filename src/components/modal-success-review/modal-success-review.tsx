@@ -14,11 +14,13 @@ function ModalSuccessReview({ onSuccessModalClose, isModalSuccessOpen }: ModalSu
   };
 
   useEffect(() => {
-    window.addEventListener('keydown', handleTabClick);
-    return () => {
-      window.removeEventListener('keydown', handleTabClick);
-    };
-  }, []);
+    if (isModalSuccessOpen) {
+      window.addEventListener('keydown', handleTabClick);
+      return () => {
+        window.removeEventListener('keydown', handleTabClick);
+      };
+    }
+  }, [isModalSuccessOpen]);
 
   return (
     <div className={isModalSuccessOpen ?

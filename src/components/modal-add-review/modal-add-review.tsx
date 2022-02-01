@@ -61,6 +61,12 @@ function ModalAddReview({ name, onReviewModalClose, isModalReviewFormOpen, guita
     }
   };
 
+  const handleTabClick = (event: any) => {
+    if (event.key === 'Tab' || event.key === 9) {
+      event.preventDefault();
+    }
+  };
+
   useEffect(() => {
     if (!isModalReviewFormOpen) {
       setNameValue('');
@@ -69,20 +75,13 @@ function ModalAddReview({ name, onReviewModalClose, isModalReviewFormOpen, guita
       setDisadvantagesValue('');
       setCommentValue('');
     }
-  }, [isModalReviewFormOpen]);
-
-  const handleTabClick = (event: any) => {
-    if (event.key === 'Tab' || event.key === 9) {
-      event.preventDefault();
+    else {
+      window.addEventListener('keydown', handleTabClick);
+      return () => {
+        window.removeEventListener('keydown', handleTabClick);
+      };
     }
-  };
-
-  useEffect(() => {
-    window.addEventListener('keydown', handleTabClick);
-    return () => {
-      window.removeEventListener('keydown', handleTabClick);
-    };
-  }, []);
+  }, [isModalReviewFormOpen]);
 
   return (
     <div
