@@ -71,13 +71,26 @@ function ModalAddReview({ name, onReviewModalClose, isModalReviewFormOpen, guita
     }
   }, [isModalReviewFormOpen]);
 
+  const handleTabClick = (event: any) => {
+    if (event.key === 'Tab' || event.key === 9) {
+      event.preventDefault();
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleTabClick);
+    return () => {
+      window.removeEventListener('keydown', handleTabClick);
+    };
+  }, []);
+
   return (
     <div
       className={isModalReviewFormOpen ?
         'modal is-active modal--review modal-for-ui-kit' :
         'modal modal--review modal-for-ui-kit'}
     >
-      <div className="modal__wrapper" >
+      <div className="modal__wrapper">
         <div className="modal__overlay" data-close-modal="" onClick={onReviewModalClose}></div>
         <div className="modal__content">
           <h2 className="modal__header modal__header--review title title--medium">Оставить отзыв</h2>
