@@ -1,9 +1,25 @@
+import { useEffect } from 'react';
+
 type ModalSuccessReviewProps = {
   isModalSuccessOpen: boolean,
   onSuccessModalClose: () => void
 }
 
 function ModalSuccessReview({ onSuccessModalClose, isModalSuccessOpen }: ModalSuccessReviewProps): JSX.Element {
+
+  const handleTabClick = (event: any) => {
+    if (event.key === 'Tab' || event.key === 9) {
+      event.preventDefault();
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleTabClick);
+    return () => {
+      window.removeEventListener('keydown', handleTabClick);
+    };
+  }, []);
+
   return (
     <div className={isModalSuccessOpen ?
       'modal is-active modal--success modal-for-ui-kit' :
