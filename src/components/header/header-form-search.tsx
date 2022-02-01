@@ -33,7 +33,7 @@ function HeaderFormSearch(): JSX.Element {
           {guitars
             .filter((guitar) => guitar.name.toLowerCase().includes(searchValue.toLowerCase()))
             .map((guitar) => (
-              <li className="form-search__select-item" tabIndex={0} key={guitar.id}>
+              <li className="form-search__select-item" tabIndex={1} key={guitar.id}>
                 <Link to={generatePath(AppRoute.Guitar, {id: guitar.id})} className="link">{guitar.name}</Link>
               </li>))}
         </ul>
