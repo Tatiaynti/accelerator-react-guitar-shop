@@ -1,6 +1,8 @@
 const PRODUCTS_PER_PAGE = 9;
 const FIRST_PAGE = 1;
 const MIN_COMMENT_LENGTH = 3;
+const MIN_COUNT_GUITAR_IN_CART = 1;
+const MAX_COUNT_GUITAR_IN_CART = 99;
 
 enum AppRoute {
   Catalog = '/',
@@ -126,5 +128,5 @@ enum DefaultPriceRange {
   Max = 30000,
 }
 
-export {MIN_COMMENT_LENGTH, GuitarTypeToReadable, QueryParams, FilterPath, StringCount, AppRoute, APIRoute, SortType, SortOrder, stringValues, filtersByStringAndType, PRODUCTS_PER_PAGE, FIRST_PAGE, stringLabels, FilterByType, DefaultPriceRange};
+export {MIN_COUNT_GUITAR_IN_CART, MAX_COUNT_GUITAR_IN_CART, MIN_COMMENT_LENGTH, GuitarTypeToReadable, QueryParams, FilterPath, StringCount, AppRoute, APIRoute, SortType, SortOrder, stringValues, filtersByStringAndType, PRODUCTS_PER_PAGE, FIRST_PAGE, stringLabels, FilterByType, DefaultPriceRange};
 export type {FetchGuitarProperty};

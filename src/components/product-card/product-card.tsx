@@ -1,8 +1,9 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { generatePath, Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
+import { setGuitarsInCart } from '../../store/action';
 import { RootState } from '../../store/root-reducer';
-import { getCommentsCount } from '../../store/selectors';
+import { getCommentsCount, getGuitarsInCart } from '../../store/selectors';
 import { GuitarType } from '../../types/guitar';
 import { setRatingStars } from '../../utils/utils';
 
@@ -11,10 +12,19 @@ type ProductCardProps = {
 };
 
 function ProductCard(props: ProductCardProps): JSX.Element {
+  const dispatch = useDispatch();
+  const guitarsInCart = useSelector(getGuitarsInCart);
+
   const {name, previewImg, price, rating, id} = props.productCard;
   const roundedRating = Math.round(rating);
   const imageSrc = `${previewImg.replace('guitar', 'content/guitar')}`;
   const commentsCount = useSelector((state: RootState) => getCommentsCount(state, id));
+
+  const handleAddToCartClick = () => {
+    if (!guitarsInCart.some((guitarInCart) => guitarInCart.id === id)) {
+      dispatch(setGuitarsInCart(props.productCard));
+    }
+  };
 
   return (
     <div className="product-card">
@@ -63,7 +73,9 @@ function ProductCard(props: ProductCardProps): JSX.Element {
       </div>
       <div className="product-card__buttons">
         <Link to={generatePath(AppRoute.Guitar, {id: id})} className="button button--mini" href="#">Подробнее</Link>
-        <Link to={AppRoute.PageNotFound} className="button button--red button--mini button--add-to-cart" href="#">Купить</Link>
+        {guitarsInCart.some((guitarInCart) => guitarInCart.id === id) ?
+          <Link to={AppRoute.Cart} className="button button--red-border button--mini button--in-cart">В Корзине</Link> :
+          <button className="button button--red button--mini button--add-to-cart" onClick={handleAddToCartClick}>Купить</button>}
       </div>
     </div>
   );
