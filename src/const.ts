@@ -5,6 +5,7 @@ const MIN_COMMENT_LENGTH = 3;
 enum AppRoute {
   Catalog = '/',
   Guitar = '/guitars/:id',
+  Cart = '/cart',
   PageNotFound = '*',
   Query = '/?',
   Pagination = '/catalog/page_:pageNumber',

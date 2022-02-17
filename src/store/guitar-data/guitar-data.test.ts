@@ -29,6 +29,7 @@ describe('Reducer: guitarData', () => {
         commentsByGuitarId: [],
         isCardLoaded: false,
         areCommentsLoaded: false,
+        guitarsInCart: [],
       });
   });
 
@@ -54,6 +55,7 @@ describe('Reducer: guitarData', () => {
       commentsByGuitarId: [],
       isCardLoaded: false,
       areCommentsLoaded: false,
+      guitarsInCart: [],
     };
 
     expect (guitarData(state, loadGuitars(guitars)))
@@ -66,6 +68,7 @@ describe('Reducer: guitarData', () => {
         commentsByGuitarId: [],
         isCardLoaded: false,
         areCommentsLoaded: false,
+        guitarsInCart: [],
       });
   });
 
@@ -91,6 +94,7 @@ describe('Reducer: guitarData', () => {
       commentsByGuitarId: [],
       isCardLoaded: false,
       areCommentsLoaded: false,
+      guitarsInCart: [],
     };
 
     expect(guitarData(state, loadGuitarById(guitars[0])))
@@ -113,6 +117,7 @@ describe('Reducer: guitarData', () => {
         commentsByGuitarId: [],
         isCardLoaded: false,
         areCommentsLoaded: false,
+        guitarsInCart: [],
       });
   });
 
@@ -138,6 +143,7 @@ describe('Reducer: guitarData', () => {
       commentsByGuitarId: [],
       isCardLoaded: false,
       areCommentsLoaded: false,
+      guitarsInCart: [],
     };
     expect(guitarData(state, loadComments(comments)))
       .toEqual({
@@ -159,6 +165,7 @@ describe('Reducer: guitarData', () => {
         commentsByGuitarId: [],
         isCardLoaded: false,
         areCommentsLoaded: false,
+        guitarsInCart: [],
       });
   });
 
@@ -184,6 +191,7 @@ describe('Reducer: guitarData', () => {
       commentsByGuitarId: [],
       isCardLoaded: false,
       areCommentsLoaded: false,
+      guitarsInCart: [],
     };
     expect(guitarData(state, setAreCommentsLoaded(true)))
       .toEqual({
@@ -207,6 +215,7 @@ describe('Reducer: guitarData', () => {
         commentsByGuitarId: [],
         isCardLoaded: false,
         areCommentsLoaded: true,
+        guitarsInCart: [],
       });
   });
 });
