@@ -10,7 +10,7 @@ type CartItemProps = {
 }
 
 function CartItem({guitar}: CartItemProps): JSX.Element {
-  const { previewImg, name, vendorCode, type, stringCount, price, id} = guitar;
+  const {previewImg, name, vendorCode, type, stringCount, price, id} = guitar;
   const dispatch = useDispatch();
   const [guitarCount, setGuitarCount] = useState(1);
 
@@ -46,7 +46,7 @@ function CartItem({guitar}: CartItemProps): JSX.Element {
     <div className="cart-item">
       <button className="cart-item__close-button button-cross" type="button" aria-label="Удалить"><span className="button-cross__icon"></span><span className="cart-item__close-button-interactive-area"></span>
       </button>
-      <div className="cart-item__image"><img src={`/${previewImg}`} width="55" height="130" alt={name} />
+      <div className="cart-item__image"><img src={`/${previewImg.replace('guitar', 'content/guitar')}`} width="55" height="130" alt={name} />
       </div>
       <div className="product-info cart-item__info">
         <p className="product-info__title">{name}</p>
