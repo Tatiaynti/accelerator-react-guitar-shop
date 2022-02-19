@@ -109,4 +109,11 @@ const deleteGuitarInCart = createAction(
   }),
 );
 
-export {deleteGuitarInCart, setGuitarsInCart, setAreCommentsLoaded, setIsProductCardLoaded, loadCommentsByGuitarId, loadGuitarById, setPriceRangeMin, setPriceRangeMax, setGuitarsCount, loadGuitarsCount, setUserPriceMin, setUserPriceMax, loadGuitars, redirectToRoute, loadComments};
+const setTotalPrices = createAction(
+  ActionType.SetTotalPrice,
+  (totalPrice: number) => ({
+    payload: {totalPrice},
+  }),
+);
+
+export {setTotalPrices, deleteGuitarInCart, setGuitarsInCart, setAreCommentsLoaded, setIsProductCardLoaded, loadCommentsByGuitarId, loadGuitarById, setPriceRangeMin, setPriceRangeMax, setGuitarsCount, loadGuitarsCount, setUserPriceMin, setUserPriceMax, loadGuitars, redirectToRoute, loadComments};

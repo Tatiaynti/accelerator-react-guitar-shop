@@ -1,11 +1,16 @@
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
+import { getTotalPrices } from '../../store/selectors';
 import CartList from '../cart-list/cart-list';
 import Footer from '../footer/footer';
 import Header from '../header/header';
 import VisuallyHiddenComponent from '../visually-hidden-component/visually-hidden-component';
 
 function Cart(): JSX.Element {
+  const totalPrices = useSelector(getTotalPrices);
+  const totalPrice = totalPrices.reduce((prev, current) => prev + current, 0);
+
   return (
     <>
       <VisuallyHiddenComponent/>
@@ -40,7 +45,7 @@ function Cart(): JSX.Element {
                   </form>
                 </div>
                 <div className="cart__total-info">
-                  <p className="cart__total-item"><span className="cart__total-value-name">Всего:</span><span className="cart__total-value">52 000 ₽</span></p>
+                  <p className="cart__total-item"><span className="cart__total-value-name">Всего:</span><span className="cart__total-value">{totalPrice}</span></p>
                   <p className="cart__total-item"><span className="cart__total-value-name">Скидка:</span><span className="cart__total-value cart__total-value--bonus">- 3000 ₽</span></p>
                   <p className="cart__total-item"><span className="cart__total-value-name">К оплате:</span><span className="cart__total-value cart__total-value--payment">49 000 ₽</span></p>
                   <button className="button button--red button--big cart__order-button">Оформить заказ</button>

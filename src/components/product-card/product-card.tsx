@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { generatePath, Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
-import { setGuitarsInCart } from '../../store/action';
+import { setGuitarsInCart, setTotalPrices } from '../../store/action';
 import { RootState } from '../../store/root-reducer';
 import { getCommentsCount, getGuitarsInCart } from '../../store/selectors';
 import { GuitarType } from '../../types/guitar';
@@ -23,6 +23,7 @@ function ProductCard(props: ProductCardProps): JSX.Element {
   const handleAddToCartClick = () => {
     if (!guitarsInCart.some((guitarInCart) => guitarInCart.id === id)) {
       dispatch(setGuitarsInCart(props.productCard));
+      dispatch(setTotalPrices(price));
     }
   };
 

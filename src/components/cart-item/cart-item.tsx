@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { MAX_COUNT_GUITAR_IN_CART, MIN_COUNT_GUITAR_IN_CART } from '../../const';
-import { deleteGuitarInCart } from '../../store/action';
+import { deleteGuitarInCart, setTotalPrices } from '../../store/action';
 import { GuitarType } from '../../types/guitar';
 import { changeGuitarTypeToReadable } from '../../utils/utils';
 
@@ -17,32 +17,38 @@ function CartItem({guitar}: CartItemProps): JSX.Element {
   const handleDecreaseButtonClick = () => {
     if (guitarCount > MIN_COUNT_GUITAR_IN_CART) {
       setGuitarCount(guitarCount - 1);
+      dispatch(setTotalPrices(-price));
     } else {
       dispatch(deleteGuitarInCart(guitar));
+      dispatch(setTotalPrices(-price));
     }
   };
 
   const handleIncreaseButtonClick = () => {
     if (guitarCount < MAX_COUNT_GUITAR_IN_CART) {
       setGuitarCount(guitarCount + 1);
+      dispatch(setTotalPrices(price));
     }
   };
 
   const handleInputCountChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
+    const prevCount = guitarCount;
     setGuitarCount(Number(target.value));
-    if (Number(target.value) < MIN_COUNT_GUITAR_IN_CART) {
-      dispatch(deleteGuitarInCart(guitar));
-    }
+    dispatch(setTotalPrices((Number(target.value) * price) - (prevCount * price)));
   };
 
   const handleInputCountBlure = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
     if (Number(target.value) > MAX_COUNT_GUITAR_IN_CART) {
       setGuitarCount(MAX_COUNT_GUITAR_IN_CART);
     }
+    if (Number(target.value) < MIN_COUNT_GUITAR_IN_CART) {
+      setGuitarCount(MIN_COUNT_GUITAR_IN_CART);
+    }
   };
 
   const handleDeleteButtonClick = () => {
     dispatch(deleteGuitarInCart(guitar));
+    dispatch(setTotalPrices(price));
   };
 
   return (
@@ -70,7 +76,7 @@ function CartItem({guitar}: CartItemProps): JSX.Element {
           </svg>
         </button>
       </div>
-      <div className="cart-item__price-total">{guitarCount * price} ₽</div>
+      <div className="cart-item__price-total">{guitarCount < MIN_COUNT_GUITAR_IN_CART ? MIN_COUNT_GUITAR_IN_CART * price : guitarCount * price} ₽</div>
     </div>
   );
 }
