@@ -14,14 +14,7 @@ type ModalAddToCartProps = {
 function ModalAddToCart({ guitar, onAddToCardModalClose, onSuccessModalOpen }: ModalAddToCartProps): JSX.Element {
   const dispatch = useDispatch();
   const guitarsInCart = useSelector(getGuitarsInCart);
-  const {
-    previewImg,
-    name,
-    vendorCode,
-    type,
-    stringCount,
-    price,
-  } = guitar;
+  const {previewImg, name, vendorCode, type, stringCount, price} = guitar;
 
   const handleAddToCartClick = () => {
     if (!guitarsInCart.some((guitarInCart) => guitarInCart.id === guitar.id)) {
@@ -39,7 +32,7 @@ function ModalAddToCart({ guitar, onAddToCardModalClose, onSuccessModalOpen }: M
           <div className="modal__overlay" data-close-modal=""></div>
           <div className="modal__content">
             <h2 className="modal__header title title--medium">Добавить товар в корзину</h2>
-            <div className="modal__info"><img className="modal__img" src={`/${previewImg}`} alt={name} width="67" height="137" />
+            <div className="modal__info"><img className="modal__img" src={`/${previewImg.replace('guitar', 'content/guitar')}`} alt={name} width="67" height="137" />
               <div className="modal__info-wrapper">
                 <h3 className="modal__product-name title title--little title--uppercase">{name}</h3>
                 <p className="modal__product-params modal__product-params--margin-11">Артикул: {vendorCode}</p>
