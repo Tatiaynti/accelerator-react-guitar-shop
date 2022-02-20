@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { MAX_COUNT_GUITAR_IN_CART, MIN_COUNT_GUITAR_IN_CART } from '../../const';
-import { deleteGuitarInCart, setTotalPrices } from '../../store/action';
+import { setTotalPrices } from '../../store/action';
 import { GuitarType } from '../../types/guitar';
 import { changeGuitarTypeToReadable } from '../../utils/utils';
+import ModalDeleteProduct from '../modal-delete-product/modal-delete-product';
 
 type CartItemProps = {
   guitar: GuitarType,
@@ -13,14 +14,35 @@ function CartItem({guitar}: CartItemProps): JSX.Element {
   const {previewImg, name, vendorCode, type, stringCount, price, id} = guitar;
   const dispatch = useDispatch();
   const [guitarCount, setGuitarCount] = useState(1);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+  document.body.classList.remove('unscrollable');
+
+  const handleEscapeKeyDown = useCallback((evt: { key: string; }) => {
+    if (evt.key === 'Escape') {
+      setIsDeleteModalOpen(false);
+      document.body.removeEventListener('keydown', handleEscapeKeyDown);
+    }
+  }, []);
+
+  const onDeleteModalClose = () => {
+    setIsDeleteModalOpen(false);
+    document.body.classList.add('unscrollable');
+  };
+
+  useEffect(() => {
+    isDeleteModalOpen ?
+      document.body.addEventListener('keydown', handleEscapeKeyDown) :
+      document.body.removeEventListener('keydown', handleEscapeKeyDown);
+  }, [handleEscapeKeyDown, isDeleteModalOpen]);
 
   const handleDecreaseButtonClick = () => {
     if (guitarCount > MIN_COUNT_GUITAR_IN_CART) {
       setGuitarCount(guitarCount - 1);
       dispatch(setTotalPrices(-price));
     } else {
-      dispatch(deleteGuitarInCart(guitar));
-      dispatch(setTotalPrices(-price));
+      setIsDeleteModalOpen(true);
+      document.body.classList.add('unscrollable');
     }
   };
 
@@ -47,8 +69,7 @@ function CartItem({guitar}: CartItemProps): JSX.Element {
   };
 
   const handleDeleteButtonClick = () => {
-    dispatch(deleteGuitarInCart(guitar));
-    dispatch(setTotalPrices(price));
+    setIsDeleteModalOpen(true);
   };
 
   return (
@@ -77,6 +98,7 @@ function CartItem({guitar}: CartItemProps): JSX.Element {
         </button>
       </div>
       <div className="cart-item__price-total">{guitarCount < MIN_COUNT_GUITAR_IN_CART ? MIN_COUNT_GUITAR_IN_CART * price : guitarCount * price} ₽</div>
+      {isDeleteModalOpen && <ModalDeleteProduct onDeleteModalClose={onDeleteModalClose} guitar={guitar} totalPrice={guitarCount * price}/>}
     </div>
   );
 }
