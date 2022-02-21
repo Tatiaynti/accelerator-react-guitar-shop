@@ -1,12 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { fetchCommentsByGuitarIdAction, fetchGuitarByIdAction } from '../../store/api-actions';
-import { getCommentsByGuitarId, getGuitarById, getIsCardLoaded } from '../../store/selectors';
+import { getCommentsByGuitarId, getGuitarById, getGuitarsInCart, getIsCardLoaded } from '../../store/selectors';
 import { changeGuitarTypeToReadable, setRatingStars } from '../../utils/utils';
 import Footer from '../footer/footer';
 import Header from '../header/header';
+import ModalAddToCart from '../modal-add-to-cart/modal-add-to-cart';
+import ModalSuccessAddToCart from '../modal-success-add-to-cart/modal-success-add-to-cart';
 import PageNotFound from '../page-not-found/page-not-found';
 import ProductCardComments from '../product-card-comments/product-card-comments';
 import VisuallyHiddenComponent from '../visually-hidden-component/visually-hidden-component';
@@ -21,7 +23,38 @@ function ProductDetailedCard(): JSX.Element {
   const guitar = useSelector(getGuitarById);
   const comments = useSelector(getCommentsByGuitarId);
   const isProductCardLoaded = useSelector(getIsCardLoaded);
+  const guitarsInCart = useSelector(getGuitarsInCart);
   const [isFirstTabChosen, setFirstTabChosen] = useState(true);
+  const [isModalAddToCardOpen, setIsModalAddToCardOpen] = useState(false);
+  const [isModalSuccessOpen, setIsModalSuccessOpen] = useState(false);
+
+  const handleEscapeKeyDown = useCallback((evt: { key: string; }) => {
+    if (evt.key === 'Escape') {
+      setIsModalAddToCardOpen(false);
+      setIsModalSuccessOpen(false);
+      document.body.removeEventListener('keydown', handleEscapeKeyDown);
+    }
+  }, []);
+
+  const handleAddToCartClick = () => {
+    setIsModalAddToCardOpen(true);
+    document.body.classList.add('unscrollable');
+  };
+
+  const onAddToCardModalClose = () => {
+    setIsModalAddToCardOpen(false);
+    document.body.classList.remove('unscrollable');
+  };
+
+  const onSuccessModalOpen = () => {
+    setIsModalSuccessOpen(true);
+    document.body.classList.add('unscrollable');
+  };
+
+  const onSuccessModalClose = () => {
+    setIsModalSuccessOpen(false);
+    document.body.classList.remove('unscrollable');
+  };
 
   const handleCharacteristicsTabClick = () => {
     setFirstTabChosen(true);
@@ -35,6 +68,18 @@ function ProductDetailedCard(): JSX.Element {
     dispatch(fetchGuitarByIdAction(+id));
     dispatch(fetchCommentsByGuitarIdAction(+id));
   }, [id, dispatch]);
+
+  useEffect(() => {
+    isModalAddToCardOpen ?
+      document.body.addEventListener('keydown', handleEscapeKeyDown) :
+      document.body.removeEventListener('keydown', handleEscapeKeyDown);
+  }, [handleEscapeKeyDown, isModalAddToCardOpen]);
+
+  useEffect(() => {
+    isModalSuccessOpen ?
+      document.body.addEventListener('keydown', handleEscapeKeyDown) :
+      document.body.removeEventListener('keydown', handleEscapeKeyDown);
+  }, [handleEscapeKeyDown, isModalSuccessOpen]);
 
   if (!guitar || !isProductCardLoaded) {
     return (isProductCardLoaded ? <PageNotFound /> :
@@ -125,12 +170,16 @@ function ProductDetailedCard(): JSX.Element {
             <div className="product-container__price-wrapper">
               <p className="product-container__price-info product-container__price-info--title">Цена:</p>
               <p className="product-container__price-info product-container__price-info--value">{price} ₽</p>
-              <button className="button button--red button--big product-container__button">Добавить в корзину</button>
+              {guitarsInCart.some((guitarInCart) => guitarInCart.id === guitar.id) ?
+                <Link to={AppRoute.Cart} className="button button--red-border button--big button--in-cart">В Корзине</Link> :
+                <button className="button button--red button--big product-container__button" onClick={handleAddToCartClick}>Добавить в корзину</button>}
             </div>
           </div>
           <ProductCardComments name={name} guitarId={id}/>
         </div>
       </main>
+      {isModalAddToCardOpen && <ModalAddToCart guitar={guitar} onAddToCardModalClose={onAddToCardModalClose} onSuccessModalOpen={onSuccessModalOpen} />}
+      {isModalSuccessOpen && <ModalSuccessAddToCart onSuccessModalClose={onSuccessModalClose} />}
       <Footer />
     </>
   );
