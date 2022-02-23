@@ -23,10 +23,14 @@ function Cart(): JSX.Element {
 
   const handleCouponFormSubmit = (evt: InvalidEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    if (Object.values(PromoCode).includes(couponValue as PromoCode)) {
+    if (Object.values(PromoCode).includes(couponValue as PromoCode)  && couponValue !== PromoCode.Unvalid) {
       setIsCouponValid(PromoCodeValidate.True);
       setDiscount(convertPromoCodeToDiscount(couponValue as PromoCode));
-    } else {
+    }
+    else if (couponValue === PromoCode.Unvalid) {
+      setIsCouponValid(PromoCodeValidate.Unknown);
+    }
+    else {
       setIsCouponValid(PromoCodeValidate.False);
       setDiscount(convertPromoCodeToDiscount());
     }
@@ -69,7 +73,7 @@ function Cart(): JSX.Element {
                 </div>
                 <div className="cart__total-info">
                   <p className="cart__total-item"><span className="cart__total-value-name">Всего:</span><span className="cart__total-value">{totalPrice}</span></p>
-                  <p className="cart__total-item"><span className="cart__total-value-name">Скидка:</span><span className="cart__total-value cart__total-value--bonus">{discount} ₽</span></p>
+                  <p className="cart__total-item"><span className="cart__total-value-name">Скидка:</span>                  {discount <= 0 ? <span className="cart__total-value">0 ₽</span> : <span className="cart__total-value cart__total-value--bonus">-{discount} ₽</span>}</p>
                   <p className="cart__total-item"><span className="cart__total-value-name">К оплате:</span><span className="cart__total-value cart__total-value--payment">{totalPrice - discount}</span></p>
                   <button className="button button--red button--big cart__order-button">Оформить заказ</button>
                 </div>
