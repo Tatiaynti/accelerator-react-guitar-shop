@@ -3,7 +3,6 @@ import { CartData } from '../../types/cart';
 import { setTotalPrices } from '../action';
 
 const initialState: CartData = {
-  guitarsInCart: [],
   totalPrices: [],
 };
 
