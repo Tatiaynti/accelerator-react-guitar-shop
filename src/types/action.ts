@@ -17,6 +17,9 @@ enum ActionType {
   LoadCommentsByGuitarId = 'data/loadCommentsByGuitarId',
   SetIsCardLoaded = 'data/setIsProductCardLoaded',
   SetAreCommentsLoaded = 'data/setIsCommentsLoaded',
+  SetGuitarsInCart = 'data/setGuitarsInCart',
+  DeleteGuitarInCart = 'data/deleteGuitarInCart',
+  SetTotalPrice = 'cart/setTotalPrice',
 }
 
 type ThunkActionResult<R = Promise<void>> = ThunkAction<R, RootState, AxiosInstance, Action>;

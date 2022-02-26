@@ -23,5 +23,7 @@ const getGuitarById = (state: RootState): GuitarType | null => state[NameSpace.D
 const getCommentsByGuitarId = (state: RootState): CommentType[] => state[NameSpace.Data].commentsByGuitarId;
 const getIsCardLoaded = (state: RootState): boolean => state[NameSpace.Data].isCardLoaded;
 const getAreCommentsLoaded = (state: RootState): boolean => state[NameSpace.Data].areCommentsLoaded;
+const getGuitarsInCart = (state: RootState): GuitarType[] => state[NameSpace.Data].guitarsInCart;
+const getTotalPrices = (state: RootState): number[] => state[NameSpace.Cart].totalPrices;
 
-export {getAreCommentsLoaded, getIsCardLoaded, getCommentsByGuitarId, getGuitars, getDataLoadingStatus, getGuitarsCount, getCommentsCount, getPriceRangeMin, getPriceRangeMax, getGuitarById};
+export {getTotalPrices, getGuitarsInCart, getAreCommentsLoaded, getIsCardLoaded, getCommentsByGuitarId, getGuitars, getDataLoadingStatus, getGuitarsCount, getCommentsCount, getPriceRangeMin, getPriceRangeMax, getGuitarById};

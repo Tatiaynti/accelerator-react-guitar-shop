@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { CommentType } from '../../types/comment';
 import { GuitarType } from '../../types/guitar';
-import { loadComments, loadCommentsByGuitarId, loadGuitarById, loadGuitars, loadGuitarsCount, setAreCommentsLoaded, setIsProductCardLoaded } from '../action';
+import { deleteGuitarInCart, loadComments, loadCommentsByGuitarId, loadGuitarById, loadGuitars, loadGuitarsCount, setAreCommentsLoaded, setGuitarsInCart, setIsProductCardLoaded } from '../action';
 
 type CatalogType = {
   catalog: GuitarType[],
@@ -12,6 +12,7 @@ type CatalogType = {
   commentsByGuitarId: CommentType[],
   isCardLoaded: boolean,
   areCommentsLoaded: boolean,
+  guitarsInCart: GuitarType[],
 }
 
 const initialState: CatalogType = {
@@ -35,6 +36,7 @@ const initialState: CatalogType = {
   commentsByGuitarId: [],
   isCardLoaded: false,
   areCommentsLoaded: false,
+  guitarsInCart: [],
 };
 
 const guitarData = createReducer(initialState, (builder) => {
@@ -66,6 +68,15 @@ const guitarData = createReducer(initialState, (builder) => {
     .addCase(setAreCommentsLoaded, (state, action) => {
       const { areCommentsLoaded } = action.payload;
       state.areCommentsLoaded = areCommentsLoaded;
+    })
+    .addCase(setGuitarsInCart, (state, action) => {
+      const { guitarInCart } = action.payload;
+      state.guitarsInCart.push(guitarInCart);
+    })
+    .addCase(deleteGuitarInCart, (state, action) => {
+      const { deletedGuitarInCart } = action.payload;
+      const index = state.guitarsInCart.findIndex((guitar) => guitar.id === deletedGuitarInCart.id);
+      state.guitarsInCart.splice(index, 1);
     });
 });
 

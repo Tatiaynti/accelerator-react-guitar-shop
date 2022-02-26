@@ -95,4 +95,25 @@ const setAreCommentsLoaded = createAction(
   }),
 );
 
-export {setAreCommentsLoaded, setIsProductCardLoaded, loadCommentsByGuitarId, loadGuitarById, setPriceRangeMin, setPriceRangeMax, setGuitarsCount, loadGuitarsCount, setUserPriceMin, setUserPriceMax, loadGuitars, redirectToRoute, loadComments};
+const setGuitarsInCart = createAction(
+  ActionType.SetGuitarsInCart,
+  (guitarInCart: GuitarType) => ({
+    payload: {guitarInCart},
+  }),
+);
+
+const deleteGuitarInCart = createAction(
+  ActionType.DeleteGuitarInCart,
+  (deletedGuitarInCart: GuitarType) => ({
+    payload: {deletedGuitarInCart},
+  }),
+);
+
+const setTotalPrices = createAction(
+  ActionType.SetTotalPrice,
+  (totalPrice: number) => ({
+    payload: {totalPrice},
+  }),
+);
+
+export {setTotalPrices, deleteGuitarInCart, setGuitarsInCart, setAreCommentsLoaded, setIsProductCardLoaded, loadCommentsByGuitarId, loadGuitarById, setPriceRangeMin, setPriceRangeMax, setGuitarsCount, loadGuitarsCount, setUserPriceMin, setUserPriceMax, loadGuitars, redirectToRoute, loadComments};

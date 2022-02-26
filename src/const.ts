@@ -1,10 +1,13 @@
 const PRODUCTS_PER_PAGE = 9;
 const FIRST_PAGE = 1;
 const MIN_COMMENT_LENGTH = 3;
+const MIN_COUNT_GUITAR_IN_CART = 1;
+const MAX_COUNT_GUITAR_IN_CART = 99;
 
 enum AppRoute {
   Catalog = '/',
   Guitar = '/guitars/:id',
+  Cart = '/cart',
   PageNotFound = '*',
   Query = '/?',
   Pagination = '/catalog/page_:pageNumber',
@@ -125,5 +128,18 @@ enum DefaultPriceRange {
   Max = 30000,
 }
 
-export {MIN_COMMENT_LENGTH, GuitarTypeToReadable, QueryParams, FilterPath, StringCount, AppRoute, APIRoute, SortType, SortOrder, stringValues, filtersByStringAndType, PRODUCTS_PER_PAGE, FIRST_PAGE, stringLabels, FilterByType, DefaultPriceRange};
+enum PromoCode {
+  Unvalid = '',
+  Light = 'light-333',
+  Medium = 'medium-444',
+  Height = 'height-555'
+}
+
+enum PromoCodeValidate {
+  Unknown = 'unknown',
+  True = 'true',
+  False = 'false'
+}
+
+export {PromoCode, PromoCodeValidate, MIN_COUNT_GUITAR_IN_CART, MAX_COUNT_GUITAR_IN_CART, MIN_COMMENT_LENGTH, GuitarTypeToReadable, QueryParams, FilterPath, StringCount, AppRoute, APIRoute, SortType, SortOrder, stringValues, filtersByStringAndType, PRODUCTS_PER_PAGE, FIRST_PAGE, stringLabels, FilterByType, DefaultPriceRange};
 export type {FetchGuitarProperty};

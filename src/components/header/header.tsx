@@ -1,8 +1,13 @@
-import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
 import { AppRoute } from '../../const';
+import { getGuitarsInCart } from '../../store/selectors';
 import HeaderFormSearch from './header-form-search';
 
 function Header(): JSX.Element {
+  const path = useLocation().pathname;
+  const guitarsInCart = useSelector(getGuitarsInCart);
+
   return (
     <header className="header" id="header">
       <div className="container header__wrapper">
@@ -18,10 +23,15 @@ function Header(): JSX.Element {
           </ul>
         </nav>
         <HeaderFormSearch />
-        <Link className="header__cart-link" aria-label="Корзина" to={AppRoute.PageNotFound}>
+        <Link className={path === AppRoute.Cart ?
+          'link header__cart-link link--current' :
+          'link header__cart-link link'} aria-label="Корзина" to={AppRoute.Cart}
+        >
           <svg className="header__cart-icon" width="14" height="14" aria-hidden="true">
             <use xlinkHref="#icon-basket"></use>
-          </svg><span className="visually-hidden">Перейти в корзину</span><span className="header__cart-count">2</span>
+          </svg>
+          <span className="visually-hidden">Перейти в корзину</span>
+          {guitarsInCart.length !== 0 && <span className="header__cart-count">{guitarsInCart.length}</span>}
         </Link>
       </div>
     </header>
