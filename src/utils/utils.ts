@@ -1,4 +1,4 @@
-import { FilterByType, filtersByStringAndType, GuitarTypeToReadable, PromoCode} from '../const';
+import { FilterByType, filtersByStringAndType, GuitarTypeToReadable, HEIGHT_DISCOUNT, LIGHT_DISCOUNT, MEDIUM_DISCOUNT, NO_DISCOUNT, PromoCode} from '../const';
 import { GuitarType } from '../types/guitar';
 
 const ICON_FULL_STAR = '#icon-full-star';
@@ -43,13 +43,13 @@ const changeGuitarTypeToReadable = (type: string) => {
 const convertPromoCodeToDiscount = (promoCode: PromoCode = PromoCode.Unvalid) => {
   switch (promoCode) {
     case PromoCode.Light:
-      return 3000;
+      return LIGHT_DISCOUNT;
     case PromoCode.Medium:
-      return 4000;
+      return MEDIUM_DISCOUNT;
     case PromoCode.Height:
-      return 5000;
+      return HEIGHT_DISCOUNT;
     default:
-      return 0;
+      return NO_DISCOUNT;
   }
 };
 
