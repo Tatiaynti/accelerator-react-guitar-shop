@@ -1,6 +1,7 @@
+import { PromoCode } from '../const';
+
 type PostCoupon = {
-  guitarsIds: number[],
-  coupon: string | null,
+  coupon: PromoCode,
 };
 
 export type {

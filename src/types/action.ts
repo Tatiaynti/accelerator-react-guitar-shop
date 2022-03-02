@@ -21,6 +21,7 @@ enum ActionType {
   DeleteGuitarInCart = 'data/deleteGuitarInCart',
   SetTotalPrice = 'cart/setTotalPrice',
   SetGuitarsInCartCount = 'cart/setGuitarsInCartCount',
+  SetDiscount = 'cart/setDiscount',
 }
 
 type ThunkActionResult<R = Promise<void>> = ThunkAction<R, RootState, AxiosInstance, Action>;

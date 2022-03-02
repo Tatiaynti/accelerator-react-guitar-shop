@@ -1,4 +1,4 @@
-import { FilterByType, filtersByStringAndType, GuitarTypeToReadable, HEIGHT_DISCOUNT, LIGHT_DISCOUNT, MEDIUM_DISCOUNT, NO_DISCOUNT, PromoCode} from '../const';
+import { FilterByType, filtersByStringAndType, GuitarTypeToReadable} from '../const';
 import { GuitarType } from '../types/guitar';
 
 const ICON_FULL_STAR = '#icon-full-star';
@@ -40,17 +40,5 @@ const changeGuitarTypeToReadable = (type: string) => {
       return GuitarTypeToReadable.Ukulele;
   }
 };
-const convertPromoCodeToDiscount = (promoCode: PromoCode = PromoCode.Unvalid) => {
-  switch (promoCode) {
-    case PromoCode.Light:
-      return LIGHT_DISCOUNT;
-    case PromoCode.Medium:
-      return MEDIUM_DISCOUNT;
-    case PromoCode.Height:
-      return HEIGHT_DISCOUNT;
-    default:
-      return NO_DISCOUNT;
-  }
-};
 
-export {convertPromoCodeToDiscount, changeGuitarTypeToReadable, setRatingStars, getMinPrice, getMaxPrice, getElementIdByStrings, matchStringsWithType};
+export {changeGuitarTypeToReadable, setRatingStars, getMinPrice, getMaxPrice, getElementIdByStrings, matchStringsWithType};

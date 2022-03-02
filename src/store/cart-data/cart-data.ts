@@ -1,10 +1,11 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { CartData } from '../../types/cart';
-import { setTotalPrice, setGuitarsInCartCount } from '../action';
+import { setTotalPrice, setGuitarsInCartCount, setDiscount } from '../action';
 
 const initialState: CartData = {
   totalPrice: 0,
   guitarsInCartCount: [],
+  discount: 0,
 };
 
 const cartData = createReducer(initialState, (builder) => {
@@ -12,6 +13,10 @@ const cartData = createReducer(initialState, (builder) => {
     .addCase(setTotalPrice, (state, action) => {
       const { totalPrice } = action.payload;
       state.totalPrice = totalPrice;
+    })
+    .addCase(setDiscount, (state, action) => {
+      const { discount } = action.payload;
+      state.discount = discount;
     })
     .addCase(setGuitarsInCartCount, (state, action) => {
       const { guitarInCartCount } = action.payload;

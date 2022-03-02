@@ -2,8 +2,9 @@ import { toast } from 'react-toastify';
 import { APIRoute, FetchGuitarProperty, FilterByType, FilterPath, PRODUCTS_PER_PAGE, stringLabels } from '../const';
 import { ThunkActionResult } from '../types/action';
 import { CommentType, NewCommentType } from '../types/comment';
+import { PostCoupon } from '../types/coupon';
 import { GuitarType } from '../types/guitar';
-import { loadComments, loadCommentsByGuitarId, loadGuitarById, loadGuitars, setGuitarsCount, setAreCommentsLoaded, setIsProductCardLoaded, setPriceRangeMax, setPriceRangeMin } from './action';
+import { loadComments, loadCommentsByGuitarId, loadGuitarById, loadGuitars, setGuitarsCount, setAreCommentsLoaded, setIsProductCardLoaded, setPriceRangeMax, setPriceRangeMin, setDiscount } from './action';
 
 const fetchGuitarsAction = (fetchProperty: FetchGuitarProperty): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -180,4 +181,11 @@ const postComments = (id: string, postComment: NewCommentType, onSuccessPost: ()
     }
   };
 
-export {postComments, fetchCommentsAction, fetchGuitarsAction, fetchGuitarsOnPageAction, fetchGuitarByIdAction, fetchCommentsByGuitarIdAction};
+const postCoupons = (coupon: PostCoupon, onSuccessPost: () => void): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    const { data } = await api.post(APIRoute.Coupons, coupon);
+    dispatch(setDiscount(data));
+    onSuccessPost();
+  };
+
+export {postCoupons, postComments, fetchCommentsAction, fetchGuitarsAction, fetchGuitarsOnPageAction, fetchGuitarByIdAction, fetchCommentsByGuitarIdAction};

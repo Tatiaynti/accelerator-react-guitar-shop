@@ -25,5 +25,6 @@ const getAreCommentsLoaded = (state: RootState): boolean => state[NameSpace.Data
 const getGuitarsInCart = (state: RootState): GuitarType[] => state[NameSpace.Data].guitarsInCart;
 const getTotalPrice = (state: RootState): number => state[NameSpace.Cart].totalPrice;
 const getGuitarsInCartCount = (state: RootState): GuitarInCartCount[] => state[NameSpace.Cart].guitarsInCartCount;
+const getDiscount = (state: RootState): number => state[NameSpace.Cart].discount;
 
-export {getGuitarsInCartCount, getTotalPrice, getGuitarsInCart, getAreCommentsLoaded, getIsCardLoaded, getCommentsByGuitarId, getGuitars, getDataLoadingStatus, getGuitarsCount, getCommentsCount, getGuitarById};
+export {getDiscount, getGuitarsInCartCount, getTotalPrice, getGuitarsInCart, getAreCommentsLoaded, getIsCardLoaded, getCommentsByGuitarId, getGuitars, getDataLoadingStatus, getGuitarsCount, getCommentsCount, getGuitarById};
