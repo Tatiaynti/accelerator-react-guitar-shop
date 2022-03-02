@@ -11,18 +11,21 @@ describe('Reducer: cartData', () => {
         totalPrice: 0,
         guitarsInCartCount: [],
         discount: 0,
+        guitarsInCart: [],
       });
   });
 
   it('should update guitars in cart by setGuitarsInCart', () => {
     const state = {
       totalPrice: 0,
+      guitarsInCart: [],
       guitarsInCartCount: [],
       discount: 0,
     };
     expect(cartData(state, setGuitarsInCart(guitars[0])))
       .toEqual({
         totalPrice: 0,
+        guitarsInCart: [],
         guitarsInCartCount: [],
         discount: 0,
       });
@@ -33,10 +36,12 @@ describe('Reducer: cartData', () => {
       totalPrice: 0,
       guitarsInCartCount: [],
       discount: 0,
+      guitarsInCart: [],
     };
     expect(cartData(state, deleteGuitarInCart(guitars[0])))
       .toEqual({
         totalPrice: 0,
+        guitarsInCart: [],
         guitarsInCartCount: [],
         discount: 0,
       });
@@ -47,12 +52,14 @@ describe('Reducer: cartData', () => {
       totalPrice: 0,
       guitarsInCartCount: [],
       discount: 0,
+      guitarsInCart: [],
     };
     expect(cartData(state, setTotalPrice(1000)))
       .toEqual({
         totalPrice: 1000,
         guitarsInCartCount: [],
         discount: 0,
+        guitarsInCart: [],
       });
   });
 });

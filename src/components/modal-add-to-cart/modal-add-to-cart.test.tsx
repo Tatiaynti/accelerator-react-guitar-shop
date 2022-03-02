@@ -26,13 +26,15 @@ const store = mockStore({
     guitar: guitars[0],
     isCardLoaded: true,
     areCommentsLoaded: true,
-    guitarsInCart: guitars,
   },
   PAGINATION: {
     guitarsCount: 0,
   },
   CART: {
     totalPrice: 0,
+    guitarsInCart: guitars,
+    guitarsInCartCount: [],
+    discount: 0,
   },
 });
 

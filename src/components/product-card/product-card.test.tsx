@@ -15,7 +15,13 @@ describe('Component: ProductCard', () => {
   it('should render correctly', () => {
     const mockGuitar = makeFakeGuitar();
     const store = mockStore({
-      DATA: { productCard: {}, comments: [], guitarsInCart: []},
+      DATA: { productCard: {}, comments: []},
+      CART: {
+        totalPrice: 0,
+        guitarsInCart: [],
+        guitarsInCartCount: [],
+        discount: 0,
+      },
     });
 
     store.dispatch = jest.fn();
@@ -39,7 +45,12 @@ describe('Component: ProductCard', () => {
     const mockGuitar = makeFakeGuitar();
 
     const store = mockStore({
-      DATA: { productCard: {}, comments: [], guitarsInCart: []},
+      DATA: { productCard: {}, comments: []},
+      CART: {
+        guitarsInCart: [],
+        guitarsInCartCount: [],
+        discount: 0,
+      },
     });
     render(
       <Provider store={store}>

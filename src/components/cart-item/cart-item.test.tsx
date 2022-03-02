@@ -27,13 +27,15 @@ const store = mockStore({
     guitar: guitars[0],
     isCardLoaded: true,
     areCommentsLoaded: true,
-    guitarsInCart: [],
   },
   PAGINATION: {
     guitarsCount: 0,
   },
   CART: {
     totalPrice: 0,
+    guitarsInCart: [],
+    guitarsInCartCount: [],
+    discount: 0,
   },
 });
 describe('Component: CartItem', () => {

@@ -1,7 +1,7 @@
 import ReactFocusLock from 'react-focus-lock';
 import { useDispatch, useSelector } from 'react-redux';
-import { setGuitarsInCart } from '../../store/action';
-import { getGuitarsInCart } from '../../store/selectors';
+import { setGuitarsInCart, setGuitarsInCartCount } from '../../store/action';
+import { getGuitarsInCart, getGuitarsInCartCount } from '../../store/selectors';
 import { GuitarType } from '../../types/guitar';
 import { changeGuitarTypeToReadable } from '../../utils/utils';
 
@@ -14,12 +14,20 @@ type ModalAddToCartProps = {
 function ModalAddToCart({ guitar, onAddToCardModalClose, onSuccessModalOpen }: ModalAddToCartProps): JSX.Element {
   const dispatch = useDispatch();
   const guitarsInCart = useSelector(getGuitarsInCart);
-  const {previewImg, name, vendorCode, type, stringCount, price} = guitar;
+  const guitarsInCartCount = useSelector(getGuitarsInCartCount);
+
+  const {previewImg, name, vendorCode, type, stringCount, price, id} = guitar;
 
   const handleAddToCartClick = () => {
     if (!guitarsInCart.some((guitarInCart) => guitarInCart.id === guitar.id)) {
       dispatch(setGuitarsInCart(guitar));
+      dispatch(setGuitarsInCartCount({ id, count: 1 }));
+    } else {
+      const currentCountIndex = guitarsInCartCount.findIndex((count) => count.id === guitar.id);
+      const currentCount = guitarsInCartCount[currentCountIndex].count;
+      dispatch(setGuitarsInCartCount({ id, count: currentCount + 1 }));
     }
+
     onAddToCardModalClose();
     onSuccessModalOpen();
   };
@@ -28,7 +36,7 @@ function ModalAddToCart({ guitar, onAddToCardModalClose, onSuccessModalOpen }: M
     <ReactFocusLock>
       <div className="modal is-active modal--review modal-for-ui-kit">
         <div className="modal__wrapper">
-          <div className="modal__overlay" data-close-modal=""></div>
+          <div className="modal__overlay" data-close-modal="" onClick={onAddToCardModalClose}></div>
           <div className="modal__content">
             <h2 className="modal__header title title--medium">Добавить товар в корзину</h2>
             <div className="modal__info"><img className="modal__img" src={`/${previewImg.replace('guitar', 'content/guitar')}`} alt={name} width="67" height="137" />
