@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 import { CommentType } from '../types/comment';
 import { GuitarType } from '../types/guitar';
+import { GuitarInCartCount } from '../types/guitar-in-cart-count';
 import { NameSpace, RootState } from './root-reducer';
 
 const getGuitars = (state: RootState) => state[NameSpace.Data].catalog;
@@ -22,6 +23,7 @@ const getCommentsByGuitarId = (state: RootState): CommentType[] => state[NameSpa
 const getIsCardLoaded = (state: RootState): boolean => state[NameSpace.Data].isCardLoaded;
 const getAreCommentsLoaded = (state: RootState): boolean => state[NameSpace.Data].areCommentsLoaded;
 const getGuitarsInCart = (state: RootState): GuitarType[] => state[NameSpace.Data].guitarsInCart;
-const getTotalPrices = (state: RootState): number[] => state[NameSpace.Cart].totalPrices;
+const getTotalPrice = (state: RootState): number => state[NameSpace.Cart].totalPrice;
+const getGuitarsInCartCount = (state: RootState): GuitarInCartCount[] => state[NameSpace.Cart].guitarsInCartCount;
 
-export {getTotalPrices, getGuitarsInCart, getAreCommentsLoaded, getIsCardLoaded, getCommentsByGuitarId, getGuitars, getDataLoadingStatus, getGuitarsCount, getCommentsCount, getGuitarById};
+export {getGuitarsInCartCount, getTotalPrice, getGuitarsInCart, getAreCommentsLoaded, getIsCardLoaded, getCommentsByGuitarId, getGuitars, getDataLoadingStatus, getGuitarsCount, getCommentsCount, getGuitarById};

@@ -33,9 +33,11 @@ const store = mockStore({
     guitarsCount: 0,
   },
   CART: {
-    totalPrices: [],
+    totalPrice: 0,
+    guitarsInCartCount: [],
   },
 });
+
 describe('Component: CartList', () => {
 
   it('should render correctly', () => {

@@ -1,22 +1,38 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { MAX_COUNT_GUITAR_IN_CART, MIN_COUNT_GUITAR_IN_CART } from '../../const';
-import { setTotalPrices } from '../../store/action';
+import { setGuitarsInCartCount } from '../../store/action';
 import { GuitarType } from '../../types/guitar';
 import { changeGuitarTypeToReadable } from '../../utils/utils';
 import ModalDeleteProduct from '../modal-delete-product/modal-delete-product';
 
 type CartItemProps = {
   guitar: GuitarType,
+  guitarInCartCount: number,
 }
 
-function CartItem({guitar}: CartItemProps): JSX.Element {
+function CartItem({guitar, guitarInCartCount}: CartItemProps): JSX.Element {
   const {previewImg, name, vendorCode, type, stringCount, price, id} = guitar;
   const dispatch = useDispatch();
-  const [guitarCount, setGuitarCount] = useState(1);
+  const [guitarCount, setGuitarCount] = useState<number>(guitarInCartCount);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   document.body.classList.remove('unscrollable');
+
+  useEffect(() => {
+    dispatch(setGuitarsInCartCount({ id, count: guitarCount }));
+  }, [dispatch, guitarCount, id]);
+
+  useEffect(() => {
+    if (guitarCount > MAX_COUNT_GUITAR_IN_CART) {
+      setTotalPrice(MAX_COUNT_GUITAR_IN_CART * price);
+    } else if (guitarCount < MIN_COUNT_GUITAR_IN_CART) {
+      setTotalPrice(MIN_COUNT_GUITAR_IN_CART * price);
+    } else {
+      setTotalPrice(guitarCount * price);
+    }
+  }, [guitarCount, price, totalPrice]);
 
   const handleEscapeKeyDown = useCallback((evt: { key: string; }) => {
     if (evt.key === 'Escape') {
@@ -39,7 +55,6 @@ function CartItem({guitar}: CartItemProps): JSX.Element {
   const handleDecreaseButtonClick = () => {
     if (guitarCount > MIN_COUNT_GUITAR_IN_CART) {
       setGuitarCount(guitarCount - 1);
-      dispatch(setTotalPrices(-price));
     } else {
       setIsDeleteModalOpen(true);
       document.body.classList.add('unscrollable');
@@ -49,14 +64,17 @@ function CartItem({guitar}: CartItemProps): JSX.Element {
   const handleIncreaseButtonClick = () => {
     if (guitarCount < MAX_COUNT_GUITAR_IN_CART) {
       setGuitarCount(guitarCount + 1);
-      dispatch(setTotalPrices(price));
     }
   };
 
   const handleInputCountChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
-    const prevCount = guitarCount;
     setGuitarCount(Number(target.value));
-    dispatch(setTotalPrices((Number(target.value) * price) - (prevCount * price)));
+    if (Number(target.value) > MAX_COUNT_GUITAR_IN_CART) {
+      setGuitarCount(MAX_COUNT_GUITAR_IN_CART);
+    }
+    if (Number(target.value) < MIN_COUNT_GUITAR_IN_CART) {
+      setGuitarCount(MIN_COUNT_GUITAR_IN_CART);
+    }
   };
 
   const handleInputCountBlure = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
@@ -97,8 +115,8 @@ function CartItem({guitar}: CartItemProps): JSX.Element {
           </svg>
         </button>
       </div>
-      <div className="cart-item__price-total">{guitarCount < MIN_COUNT_GUITAR_IN_CART ? MIN_COUNT_GUITAR_IN_CART * price : guitarCount * price} ₽</div>
-      {isDeleteModalOpen && <ModalDeleteProduct onDeleteModalClose={onDeleteModalClose} guitar={guitar} totalPrice={guitarCount * price}/>}
+      <div className="cart-item__price-total">{totalPrice} ₽</div>
+      {isDeleteModalOpen && <ModalDeleteProduct onDeleteModalClose={onDeleteModalClose} guitar={guitar}/>}
     </div>
   );
 }

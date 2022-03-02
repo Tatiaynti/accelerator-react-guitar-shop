@@ -1,8 +1,9 @@
-import { ChangeEvent, InvalidEvent, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { ChangeEvent, InvalidEvent, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { AppRoute, PromoCode, PromoCodeValidate } from '../../const';
-import { getTotalPrices } from '../../store/selectors';
+import { AppRoute, MAX_COUNT_GUITAR_IN_CART, MIN_COUNT_GUITAR_IN_CART, PromoCode, PromoCodeValidate } from '../../const';
+import { setTotalPrice } from '../../store/action';
+import { getGuitarsInCart, getGuitarsInCartCount, getTotalPrice } from '../../store/selectors';
 import { convertPromoCodeToDiscount } from '../../utils/utils';
 import CartList from '../cart-list/cart-list';
 import Footer from '../footer/footer';
@@ -10,12 +11,32 @@ import Header from '../header/header';
 import VisuallyHiddenComponent from '../visually-hidden-component/visually-hidden-component';
 
 function Cart(): JSX.Element {
-  const totalPrices = useSelector(getTotalPrices);
-  const totalPrice = totalPrices.reduce((prev, current) => prev + current, 0);
+  const dispatch = useDispatch();
+  const totalPrice = useSelector(getTotalPrice);
+  const guitarsInCartCount = useSelector(getGuitarsInCartCount);
+  const guitarsInCart = useSelector(getGuitarsInCart);
 
   const [couponValue, setCouponValue] = useState('');
   const [isCouponValid, setIsCouponValid] = useState(PromoCodeValidate.Unknown);
   const [discount, setDiscount] = useState(0);
+
+  useEffect(() => {
+    let price = 0;
+    guitarsInCart.forEach((guitar) => {
+      guitarsInCartCount.forEach((count) => {
+        if (guitar.id === count.id) {
+          if (count.count > MAX_COUNT_GUITAR_IN_CART) {
+            price = price + (guitar.price * MAX_COUNT_GUITAR_IN_CART);
+          } else if (count.count < MIN_COUNT_GUITAR_IN_CART) {
+            price = price + (guitar.price * MIN_COUNT_GUITAR_IN_CART);
+          } else {
+            price = price + (guitar.price * count.count);
+          }
+        }
+      });
+    });
+    dispatch(setTotalPrice(price));
+  }, [dispatch, guitarsInCart, guitarsInCartCount]);
 
   const handleCouponInputChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
     setCouponValue(target.value.toLowerCase().trim());

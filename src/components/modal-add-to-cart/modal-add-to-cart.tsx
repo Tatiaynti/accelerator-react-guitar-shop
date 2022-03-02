@@ -1,6 +1,6 @@
 import ReactFocusLock from 'react-focus-lock';
 import { useDispatch, useSelector } from 'react-redux';
-import { setGuitarsInCart, setTotalPrices } from '../../store/action';
+import { setGuitarsInCart } from '../../store/action';
 import { getGuitarsInCart } from '../../store/selectors';
 import { GuitarType } from '../../types/guitar';
 import { changeGuitarTypeToReadable } from '../../utils/utils';
@@ -19,7 +19,6 @@ function ModalAddToCart({ guitar, onAddToCardModalClose, onSuccessModalOpen }: M
   const handleAddToCartClick = () => {
     if (!guitarsInCart.some((guitarInCart) => guitarInCart.id === guitar.id)) {
       dispatch(setGuitarsInCart(guitar));
-      dispatch(setTotalPrices(guitar.price));
     }
     onAddToCardModalClose();
     onSuccessModalOpen();

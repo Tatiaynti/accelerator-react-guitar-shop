@@ -1,23 +1,21 @@
 import ReactFocusLock from 'react-focus-lock';
 import { useDispatch } from 'react-redux';
-import { deleteGuitarInCart, setTotalPrices } from '../../store/action';
+import { deleteGuitarInCart } from '../../store/action';
 import { GuitarType } from '../../types/guitar';
 import { changeGuitarTypeToReadable } from '../../utils/utils';
 
 type ModalDeleteProps = {
   guitar: GuitarType,
-  totalPrice: number,
   onDeleteModalClose: () => void
 }
 
-function ModalDeleteProduct({ guitar, onDeleteModalClose, totalPrice }: ModalDeleteProps): JSX.Element {
+function ModalDeleteProduct({ guitar, onDeleteModalClose }: ModalDeleteProps): JSX.Element {
   const dispatch = useDispatch();
   const {previewImg, name, vendorCode, type, stringCount, price} = guitar;
   document.body.classList.add('unscrollable');
 
   const handleDeleteButtonClick = () => {
     dispatch(deleteGuitarInCart(guitar));
-    dispatch(setTotalPrices(-totalPrice));
     document.body.classList.remove('unscrollable');
   };
 
