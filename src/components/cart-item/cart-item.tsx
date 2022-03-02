@@ -98,7 +98,7 @@ function CartItem({guitar, guitarInCartCount}: CartItemProps): JSX.Element {
         <p className="product-info__info">Артикул: {vendorCode}</p>
         <p className="product-info__info">{changeGuitarTypeToReadable(type)}, {stringCount} струнная</p>
       </div>
-      <div className="cart-item__price">{price} ₽</div>
+      <div className="cart-item__price">{price.toLocaleString()} ₽</div>
       <div className="quantity cart-item__quantity">
         <button className="quantity__button" aria-label="Уменьшить количество" onClick={handleDecreaseButtonClick}>
           <svg width="8" height="8" aria-hidden="true">
@@ -112,7 +112,7 @@ function CartItem({guitar, guitarInCartCount}: CartItemProps): JSX.Element {
           </svg>
         </button>
       </div>
-      <div className="cart-item__price-total">{totalPrice} ₽</div>
+      <div className="cart-item__price-total">{totalPrice.toLocaleString()} ₽</div>
       {isDeleteModalOpen && <ModalDeleteProduct onDeleteModalClose={onDeleteModalClose} guitar={guitar}/>}
     </div>
   );
