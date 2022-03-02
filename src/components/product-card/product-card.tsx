@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import {  useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { generatePath, Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { RootState } from '../../store/root-reducer';
@@ -114,7 +114,7 @@ function ProductCard(props: ProductCardProps): JSX.Element {
           <Link to={AppRoute.Cart} className="button button--red-border button--mini button--in-cart">В Корзине</Link> :
           <button className="button button--red button--mini button--add-to-cart" onClick={handleAddToCartClick}>Купить</button>}
       </div>
-      {isModalAddToCardOpen && <ModalAddToCart guitar={props.productCard} onAddToCardModalClose={onAddToCardModalClose} onSuccessModalOpen={onSuccessModalOpen}/>}
+      {isModalAddToCardOpen && <ModalAddToCart guitar={props.productCard} onAddToCardModalClose={onAddToCardModalClose} onSuccessModalOpen={onSuccessModalOpen} />}
       {isModalSuccessOpen && <ModalSuccessAddToCart onSuccessModalClose={onSuccessModalClose}/>}
     </div>
   );

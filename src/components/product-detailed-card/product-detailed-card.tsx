@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { fetchCommentsByGuitarIdAction, fetchGuitarByIdAction } from '../../store/api-actions';
-import { getCommentsByGuitarId, getGuitarById, getGuitarsInCart, getIsCardLoaded } from '../../store/selectors';
+import { getCommentsByGuitarId, getGuitarById, getIsCardLoaded } from '../../store/selectors';
 import { changeGuitarTypeToReadable, setRatingStars } from '../../utils/utils';
 import Footer from '../footer/footer';
 import Header from '../header/header';
@@ -23,7 +23,6 @@ function ProductDetailedCard(): JSX.Element {
   const guitar = useSelector(getGuitarById);
   const comments = useSelector(getCommentsByGuitarId);
   const isProductCardLoaded = useSelector(getIsCardLoaded);
-  const guitarsInCart = useSelector(getGuitarsInCart);
   const [isFirstTabChosen, setFirstTabChosen] = useState(true);
   const [isModalAddToCardOpen, setIsModalAddToCardOpen] = useState(false);
   const [isModalSuccessOpen, setIsModalSuccessOpen] = useState(false);
@@ -36,7 +35,7 @@ function ProductDetailedCard(): JSX.Element {
     }
   }, []);
 
-  const handleAddToCartClick = () => {
+  const handleModalAddToCardOpen = () => {
     setIsModalAddToCardOpen(true);
     document.body.classList.add('unscrollable');
   };
@@ -170,9 +169,7 @@ function ProductDetailedCard(): JSX.Element {
             <div className="product-container__price-wrapper">
               <p className="product-container__price-info product-container__price-info--title">Цена:</p>
               <p className="product-container__price-info product-container__price-info--value">{price} ₽</p>
-              {guitarsInCart.some((guitarInCart) => guitarInCart.id === guitar.id) ?
-                <Link to={AppRoute.Cart} className="button button--red-border button--big button--in-cart">В Корзине</Link> :
-                <button className="button button--red button--big product-container__button" onClick={handleAddToCartClick}>Добавить в корзину</button>}
+              <button className="button button--red button--big product-container__button" onClick={handleModalAddToCardOpen}>Добавить в корзину</button>
             </div>
           </div>
           <ProductCardComments name={name} guitarId={id}/>

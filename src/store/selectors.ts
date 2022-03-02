@@ -22,7 +22,7 @@ const getGuitarById = (state: RootState): GuitarType | null => state[NameSpace.D
 const getCommentsByGuitarId = (state: RootState): CommentType[] => state[NameSpace.Data].commentsByGuitarId;
 const getIsCardLoaded = (state: RootState): boolean => state[NameSpace.Data].isCardLoaded;
 const getAreCommentsLoaded = (state: RootState): boolean => state[NameSpace.Data].areCommentsLoaded;
-const getGuitarsInCart = (state: RootState): GuitarType[] => state[NameSpace.Data].guitarsInCart;
+const getGuitarsInCart = (state: RootState): GuitarType[] => state[NameSpace.Cart].guitarsInCart;
 const getTotalPrice = (state: RootState): number => state[NameSpace.Cart].totalPrice;
 const getGuitarsInCartCount = (state: RootState): GuitarInCartCount[] => state[NameSpace.Cart].guitarsInCartCount;
 const getDiscount = (state: RootState): number => state[NameSpace.Cart].discount;
