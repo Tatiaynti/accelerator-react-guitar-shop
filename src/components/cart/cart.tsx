@@ -1,21 +1,50 @@
-import { ChangeEvent, InvalidEvent, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { ChangeEvent, InvalidEvent, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { AppRoute, PromoCode, PromoCodeValidate } from '../../const';
-import { getTotalPrices } from '../../store/selectors';
-import { convertPromoCodeToDiscount } from '../../utils/utils';
+import { AppRoute, MAX_COUNT_GUITAR_IN_CART, MIN_COUNT_GUITAR_IN_CART, PromoCode, PromoCodeValidate } from '../../const';
+import { setDiscount, setTotalPrice } from '../../store/action';
+import { postCoupons } from '../../store/api-actions';
+import { getDiscount, getGuitarsInCart, getGuitarsInCartCount, getTotalPrice } from '../../store/selectors';
 import CartList from '../cart-list/cart-list';
 import Footer from '../footer/footer';
 import Header from '../header/header';
 import VisuallyHiddenComponent from '../visually-hidden-component/visually-hidden-component';
 
 function Cart(): JSX.Element {
-  const totalPrices = useSelector(getTotalPrices);
-  const totalPrice = totalPrices.reduce((prev, current) => prev + current, 0);
+  const dispatch = useDispatch();
+  const totalPrice = useSelector(getTotalPrice);
+  const guitarsInCartCount = useSelector(getGuitarsInCartCount);
+  const guitarsInCart = useSelector(getGuitarsInCart);
+  const discount = useSelector(getDiscount);
 
   const [couponValue, setCouponValue] = useState('');
   const [isCouponValid, setIsCouponValid] = useState(PromoCodeValidate.Unknown);
-  const [discount, setDiscount] = useState(0);
+  const [priceWithDiscount, setPriceWithDiscount] = useState(totalPrice);
+
+  useEffect(() => {
+    let price = 0;
+    guitarsInCart.forEach((guitar) => {
+      guitarsInCartCount.forEach((count) => {
+        if (guitar.id === count.id) {
+          if (count.count > MAX_COUNT_GUITAR_IN_CART) {
+            price = price + (guitar.price * MAX_COUNT_GUITAR_IN_CART);
+          } else if (count.count < MIN_COUNT_GUITAR_IN_CART) {
+            price = price + (guitar.price * MIN_COUNT_GUITAR_IN_CART);
+          } else {
+            price = price + (guitar.price * count.count);
+          }
+        }
+      });
+    });
+    dispatch(setTotalPrice(price));
+  }, [dispatch, guitarsInCart, guitarsInCartCount]);
+
+  useEffect(() => {
+    setPriceWithDiscount(discount / 100 * totalPrice);
+    if (discount > 0) {
+      setIsCouponValid(PromoCodeValidate.True);
+    }
+  }, [discount, totalPrice]);
 
   const handleCouponInputChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
     setCouponValue(target.value.toLowerCase().trim());
@@ -24,15 +53,16 @@ function Cart(): JSX.Element {
   const handleCouponFormSubmit = (evt: InvalidEvent<HTMLFormElement>) => {
     evt.preventDefault();
     if (Object.values(PromoCode).includes(couponValue as PromoCode)  && couponValue !== PromoCode.Unvalid) {
-      setIsCouponValid(PromoCodeValidate.True);
-      setDiscount(convertPromoCodeToDiscount(couponValue as PromoCode));
-    }
+      dispatch(postCoupons({ coupon: couponValue as PromoCode }, () => {
+        setIsCouponValid(PromoCodeValidate.True);
+      }));    }
     else if (couponValue === PromoCode.Unvalid) {
       setIsCouponValid(PromoCodeValidate.Unknown);
+      dispatch(setDiscount(0));
     }
     else {
       setIsCouponValid(PromoCodeValidate.False);
-      setDiscount(convertPromoCodeToDiscount());
+      dispatch(setDiscount(0));
     }
   };
 
@@ -72,9 +102,11 @@ function Cart(): JSX.Element {
                   </form>
                 </div>
                 <div className="cart__total-info">
-                  <p className="cart__total-item"><span className="cart__total-value-name">Всего:</span><span className="cart__total-value">{totalPrice}</span></p>
-                  <p className="cart__total-item"><span className="cart__total-value-name">Скидка:</span>                  {discount <= 0 ? <span className="cart__total-value">0 ₽</span> : <span className="cart__total-value cart__total-value--bonus">-{discount} ₽</span>}</p>
-                  <p className="cart__total-item"><span className="cart__total-value-name">К оплате:</span><span className="cart__total-value cart__total-value--payment">{totalPrice - discount}</span></p>
+                  <p className="cart__total-item"><span className="cart__total-value-name">Всего:</span><span className="cart__total-value">{totalPrice.toLocaleString()}</span></p>
+                  <p className="cart__total-item"><span className="cart__total-value-name">Скидка:</span>
+                    {priceWithDiscount === 0 ? <span className="cart__total-value">0 ₽</span> : <span className="cart__total-value cart__total-value--bonus">-{priceWithDiscount.toLocaleString()} ₽</span>}
+                  </p>
+                  <p className="cart__total-item"><span className="cart__total-value-name">К оплате:</span><span className="cart__total-value cart__total-value--payment">{(totalPrice - priceWithDiscount).toLocaleString()}</span></p>
                   <button className="button button--red button--big cart__order-button">Оформить заказ</button>
                 </div>
               </div>

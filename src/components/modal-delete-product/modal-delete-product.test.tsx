@@ -25,13 +25,15 @@ const store = mockStore({
     guitar: guitars[0],
     isCardLoaded: true,
     areCommentsLoaded: true,
-    guitarsInCart: [],
   },
   PAGINATION: {
     guitarsCount: 0,
   },
   CART: {
-    totalPrices: [],
+    totalPrice: 0,
+    guitarsInCart: [],
+    guitarsInCartCount: [],
+    discount: 0,
   },
 });
 describe('Component: ModalDelete', () => {
@@ -39,7 +41,7 @@ describe('Component: ModalDelete', () => {
   it('should render correctly', () => {
     render(
       <Provider store={store}>
-        <ModalDeleteProduct guitar={guitars[0]} totalPrice={1000} onDeleteModalClose={onDeleteModalClose} />
+        <ModalDeleteProduct guitar={guitars[0]} onDeleteModalClose={onDeleteModalClose} />
       </Provider>);
 
     expect(screen.getByText(guitars[0].name)).toBeInTheDocument();

@@ -27,13 +27,15 @@ const store = mockStore({
     guitar: guitars[0],
     isCardLoaded: true,
     areCommentsLoaded: true,
-    guitarsInCart: [],
   },
   PAGINATION: {
     guitarsCount: 0,
   },
   CART: {
-    totalPrices: [],
+    totalPrice: 0,
+    guitarsInCart: [],
+    guitarsInCartCount: [],
+    discount: 0,
   },
 });
 describe('Component: CartItem', () => {
@@ -42,7 +44,7 @@ describe('Component: CartItem', () => {
     render(
       <Provider store={store}>
         <Router history={history}>
-          <CartItem guitar={guitars[0]} />
+          <CartItem guitar={guitars[0]} guitarInCartCount={1}/>
         </Router>
       </Provider>);
 

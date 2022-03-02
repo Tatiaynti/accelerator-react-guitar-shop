@@ -3,6 +3,7 @@ import { AppRoute } from '../const';
 import { ActionType } from '../types/action';
 import { CommentType } from '../types/comment';
 import { GuitarType } from '../types/guitar';
+import { GuitarInCartCount } from '../types/guitar-in-cart-count';
 
 const loadGuitars = createAction(
   ActionType.LoadGuitars,
@@ -109,11 +110,27 @@ const deleteGuitarInCart = createAction(
   }),
 );
 
-const setTotalPrices = createAction(
+const setTotalPrice = createAction(
   ActionType.SetTotalPrice,
   (totalPrice: number) => ({
     payload: {totalPrice},
   }),
 );
 
-export {setTotalPrices, deleteGuitarInCart, setGuitarsInCart, setAreCommentsLoaded, setIsProductCardLoaded, loadCommentsByGuitarId, loadGuitarById, setPriceRangeMin, setPriceRangeMax, setGuitarsCount, loadGuitarsCount, setUserPriceMin, setUserPriceMax, loadGuitars, redirectToRoute, loadComments};
+const setGuitarsInCartCount = createAction(
+  ActionType.SetGuitarsInCartCount,
+  (guitarInCartCount: GuitarInCartCount) => ({
+    payload: {guitarInCartCount},
+  }),
+);
+
+const setDiscount = createAction(
+  ActionType.SetDiscount,
+  (discount: number) => ({
+    payload: {
+      discount,
+    },
+  }),
+);
+
+export {setDiscount, setGuitarsInCartCount, setTotalPrice, deleteGuitarInCart, setGuitarsInCart, setAreCommentsLoaded, setIsProductCardLoaded, loadCommentsByGuitarId, loadGuitarById, setPriceRangeMin, setPriceRangeMax, setGuitarsCount, loadGuitarsCount, setUserPriceMin, setUserPriceMax, loadGuitars, redirectToRoute, loadComments};

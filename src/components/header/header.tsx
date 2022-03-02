@@ -1,12 +1,13 @@
 import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { AppRoute } from '../../const';
-import { getGuitarsInCart } from '../../store/selectors';
+import { getGuitarsInCartCount } from '../../store/selectors';
 import HeaderFormSearch from './header-form-search';
 
 function Header(): JSX.Element {
   const path = useLocation().pathname;
-  const guitarsInCart = useSelector(getGuitarsInCart);
+  const guitarsInCartCount = useSelector(getGuitarsInCartCount);
+  const count = guitarsInCartCount.reduce((prev, next) => prev + next.count, 0);
 
   return (
     <header className="header" id="header">
@@ -31,7 +32,7 @@ function Header(): JSX.Element {
             <use xlinkHref="#icon-basket"></use>
           </svg>
           <span className="visually-hidden">Перейти в корзину</span>
-          {guitarsInCart.length !== 0 && <span className="header__cart-count">{guitarsInCart.length}</span>}
+          {count !== 0 && <span className="header__cart-count">{count}</span>}
         </Link>
       </div>
     </header>

@@ -23,6 +23,7 @@ const APIRoute  = {
   FilterQuery: ((filterParams: string, sort: string, order: string, page: number): string => `/guitars${filterParams ? `${filterParams}` : '?'}${sort}${order}&_start=${(page - 1) * PRODUCTS_PER_PAGE}&_limit=${PRODUCTS_PER_PAGE}`),
   GuitarsCount:  ((filterParams: string): string => `/guitars${filterParams ? `${filterParams}` : '?'}`),
   CurrentGuitarComments: ((guitarId: number): string => `/guitars/${guitarId}/comments`),
+  Coupons: '/coupons',
 };
 
 enum SortType {
